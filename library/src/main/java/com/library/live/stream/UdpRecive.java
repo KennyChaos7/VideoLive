@@ -14,6 +14,8 @@ import com.library.util.mLog;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -36,7 +38,10 @@ public class UdpRecive implements CachingStrategyCallback {
     private WeightCallback weightCallback;
 
     private boolean ismysocket = false;//用于判断是否需要销毁socket
-    private DatagramSocket socket = null;
+//    private DatagramSocket socket = null;
+    private MulticastSocket multicastSocket = null;
+    private int multicastPort = 0;
+    private String multicastIp = "";
     private DatagramPacket packetreceive;
     private int udpPacketCacheMin = 3;//udp包最小缓存数量，用于udp包排序
 
@@ -55,20 +60,31 @@ public class UdpRecive implements CachingStrategyCallback {
 
     private ArrayBlockingQueue<byte[]> udpQueue = new ArrayBlockingQueue<>(OtherUtil.QueueNum);
 
-    public UdpRecive(int port) {
-        try {
-            socket = new DatagramSocket(port);
-            socket.setReceiveBufferSize(1024 * 1024);
-            ismysocket = true;
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+    public UdpRecive(String ip, int port) {
+        ismysocket = true;
+        this.multicastIp = ip;
+        this.multicastPort = port;
         byte[] tmpBuf1 = new byte[1024];
         packetreceive = new DatagramPacket(tmpBuf1, tmpBuf1.length);
         strategy = new Strategy();
         strategy.setCachingStrategyCallback(this);
         singleThreadExecutor = new SingleThreadExecutor();
     }
+
+//    public UdpRecive(int port) {
+//        try {
+//            socket = new DatagramSocket(port);
+//            socket.setReceiveBufferSize(1024 * 1024);
+//            ismysocket = true;
+//        } catch (SocketException e) {
+//            e.printStackTrace();
+//        }
+//        byte[] tmpBuf1 = new byte[1024];
+//        packetreceive = new DatagramPacket(tmpBuf1, tmpBuf1.length);
+//        strategy = new Strategy();
+//        strategy.setCachingStrategyCallback(this);
+//        singleThreadExecutor = new SingleThreadExecutor();
+//    }
 
     public UdpRecive() {
         strategy = new Strategy();
@@ -89,17 +105,40 @@ public class UdpRecive implements CachingStrategyCallback {
      * 接收UDP包
      */
     private void starReciveUdp() {
-        if (socket != null) {
-            handlerUdpThread = new HandlerThread("Udp");
-            handlerUdpThread.start();
-            udpHandler = new Handler(handlerUdpThread.getLooper());
+//        if (socket != null) {
+//            handlerUdpThread = new HandlerThread("Udp");
+//            handlerUdpThread.start();
+//            udpHandler = new Handler(handlerUdpThread.getLooper());
+//
+//            singleThreadExecutor.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (RECIVE_STATUS == RECIVE_STATUS_START) {
+//                        try {
+//                            socket.receive(packetreceive);
+//                            OtherUtil.addQueue(udpQueue, Arrays.copyOfRange(packetreceive.getData(), 0, packetreceive.getLength()));
+//                            udpHandler.post(udprunnable);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    mLog.log("interrupt_Thread", "关闭接收线程");
+//                }
+//            });
+//        }
+        handlerUdpThread = new HandlerThread("Udp");
+        handlerUdpThread.start();
+        udpHandler = new Handler(handlerUdpThread.getLooper());
 
-            singleThreadExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    multicastSocket = new MulticastSocket(multicastPort);
+                    multicastSocket.joinGroup(InetAddress.getByName(multicastIp));
                     while (RECIVE_STATUS == RECIVE_STATUS_START) {
                         try {
-                            socket.receive(packetreceive);
+                            multicastSocket.receive(packetreceive);
                             OtherUtil.addQueue(udpQueue, Arrays.copyOfRange(packetreceive.getData(), 0, packetreceive.getLength()));
                             udpHandler.post(udprunnable);
                         } catch (IOException e) {
@@ -107,9 +146,11 @@ public class UdpRecive implements CachingStrategyCallback {
                         }
                     }
                     mLog.log("interrupt_Thread", "关闭接收线程");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            });
-        }
+            }
+        });
     }
 
     private Runnable udprunnable = new Runnable() {
@@ -248,7 +289,8 @@ public class UdpRecive implements CachingStrategyCallback {
 
     public void destroy() {
         if (ismysocket) {
-            OtherUtil.close(socket);
+//            OtherUtil.close(socket);
+            OtherUtil.close(multicastSocket);
         }
         stopRevice();
         strategy.destroy();

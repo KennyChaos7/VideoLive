@@ -24,7 +24,7 @@ public class Recive extends AppCompatActivity {
         jiestar = findViewById(R.id.jiestar);
 
         player = new Player.Buider((PlayerView) findViewById(R.id.playerView))
-                .setPullMode(new UdpRecive(getIntent().getExtras().getInt("port")))
+                .setPullMode(new UdpRecive(getIntent().getExtras().getString("ip"), getIntent().getExtras().getInt("port")))
                 .setVideoCode(getIntent().getExtras().getString("videoCode"))
                 .setMultiple(getIntent().getExtras().getInt("multiple"))
                 .setCenterScaleType(true)

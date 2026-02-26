@@ -13,6 +13,7 @@ import com.library.live.vd.VDDecoder;
 import com.videolive.R;
 
 public class ReciveReady extends AppCompatActivity {
+    private EditText url;
     private EditText port;
     private RadioGroup videoCode;
     private Button begin;
@@ -26,6 +27,7 @@ public class ReciveReady extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         multiple = findViewById(R.id.multiple);
+        url = findViewById(R.id.url);
         port = findViewById(R.id.port);
         videoCode = findViewById(R.id.rvideoCode);
         begin = findViewById(R.id.begin);
@@ -47,6 +49,7 @@ public class ReciveReady extends AppCompatActivity {
         } else {
             bundle.putString("videoCode", VDDecoder.H265);
         }
+        bundle.putString("ip", url.getText().toString());
         bundle.putInt("port", Integer.parseInt(port.getText().toString()));
         intent.putExtras(bundle);
         startActivity(intent);

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -26,7 +27,10 @@ public class UdpSend {
 
     private UdpControlInterface udpControl = null;
 
-    private DatagramSocket socket = null;
+    private MulticastSocket multicastSocket = null;
+    private int multicastPort = 0;
+    private String multicastIp = "";
+//    private DatagramSocket socket = null;
     private DatagramPacket packetsendPush = null;
     private int voiceNum = 0;
     private int videoNum = 0;
@@ -42,39 +46,33 @@ public class UdpSend {
     private ArrayBlockingQueue<byte[]> sendQueue = new ArrayBlockingQueue<>(OtherUtil.QueueNum);
 
     public UdpSend(String ip, int port) {
-        try {
-            socket = new DatagramSocket(port);
-            socket.setSendBufferSize(1024 * 1024);
+        this.multicastIp = ip;
+        this.multicastPort = port;
+//        try {
+//            socket = new DatagramSocket(port);
+//            socket.setSendBufferSize(1024 * 1024);
             ismysocket = true;
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+//        } catch (SocketException e) {
+//            e.printStackTrace();
+//        }
         init(ip, port);
     }
 
-
-    public UdpSend(DatagramSocket socket, String ip, int port) {
-        this.socket = socket;
-        ismysocket = false;
-        init(ip, port);
-    }
 
     private void init(String ip, int port) {
-        try {
-            packetsendPush = new DatagramPacket(new byte[10], 10, InetAddress.getByName(ip), port);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            packetsendPush = new DatagramPacket(new byte[10], 10, InetAddress.getByName(ip), port);
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
         singleThreadExecutor = new SingleThreadExecutor();
     }
 
     public void startsend() {
-        if (packetsendPush != null) {
-            buffvoice.clear();
-            voiceSendNum = 0;
-            PUBLISH_STATUS = PUBLISH_STATUS_START;
-            starsendThread();
-        }
+        buffvoice.clear();
+        voiceSendNum = 0;
+        PUBLISH_STATUS = PUBLISH_STATUS_START;
+        starsendThread();
     }
 
     public void stopsend() {
@@ -84,7 +82,8 @@ public class UdpSend {
     public void destroy() {
         stopsend();
         if (ismysocket) {
-            OtherUtil.close(socket);
+//            OtherUtil.close(socket);
+            OtherUtil.close(multicastSocket);
         }
         if (singleThreadExecutor != null) {
             singleThreadExecutor.shutdownNow();
@@ -219,12 +218,21 @@ public class UdpSend {
             public void run() {
                 byte[] data;
                 try {
+                    multicastSocket = new MulticastSocket(multicastPort);
+                    multicastSocket.joinGroup(InetAddress.getByName(multicastIp));
+//                    try {
+////                        packetsendPush = new DatagramPacket(new byte[10], 10, InetAddress.getByName(multicastIp), multicastPort);
+//                    } catch (UnknownHostException e) {
+//                        e.printStackTrace();
+//                    }
                     while (PUBLISH_STATUS == PUBLISH_STATUS_START) {
                         data = sendQueue.take();
                         if (data != null) {
-                            packetsendPush.setData(data);
                             try {
-                                socket.send(packetsendPush);
+                                packetsendPush = new DatagramPacket(data, data.length, InetAddress.getByName(multicastIp), multicastPort);
+//                                socket.send(packetsendPush);
+                                multicastSocket.send(packetsendPush);
+                                mLog.log("sendersucc", "发送成功");
                             } catch (IOException e) {
                                 mLog.log("senderror", "发送失败");
                                 e.printStackTrace();
@@ -234,6 +242,8 @@ public class UdpSend {
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
                 mLog.log("interrupt_Thread", "关闭发送线程");
             }

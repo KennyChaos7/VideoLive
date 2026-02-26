@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="192.168.2.106"
+                android:text="224.0.0.221"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="8765"
+                android:text="11665"
                 android:textSize="15dp" />
         </LinearLayout>
 

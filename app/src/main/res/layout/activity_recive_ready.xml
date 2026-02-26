@@ -14,6 +14,28 @@
 
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="推流地址 :" />
+
+        <EditText
+            android:id="@+id/url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="224.0.0.221"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -25,7 +47,7 @@
             android:layout_height="40dp"
             android:layout_weight="3"
             android:gravity="center"
-            android:text="8765"
+            android:text="11665"
             android:textSize="15dp" />
     </LinearLayout>
 
