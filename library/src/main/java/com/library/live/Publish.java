@@ -1,6 +1,7 @@
 package com.library.live;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,12 +23,13 @@ import android.media.ImageReader;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.library.common.UdpControlInterface;
 import com.library.common.WriteFileCallback;

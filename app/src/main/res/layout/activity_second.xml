@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purple_700">
+    <TextView
+        android:id="@+id/tv_second_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="second"/>
+
+
+    <Button
+        android:id="@+id/btn_test_bug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_second_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="test bug"/>
+
+    <Button
+        android:id="@+id/btn_start_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_test_bug"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="start media"/>
+    <Button
+        android:id="@+id/btn_stop_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_media"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="stop media"/>
+
+    <Button
+        android:id="@+id/btn_start_multicast_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_stop_media"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="start Multicast Send"/>
+
+    <Button
+        android:id="@+id/btn_stop_multicast_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_multicast_send"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="stop Multicast Send"/>
+
+
+    <Button
+        android:id="@+id/btn_start_multicast_send_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_stop_multicast_send"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="start Multicast Send media"/>
+
+    <Button
+        android:id="@+id/btn_stop_multicast_send_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_multicast_send_media"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="stop Multicast Send media"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

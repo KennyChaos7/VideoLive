@@ -1,0 +1,49 @@
+package com.k.videolive2.voice;
+
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.k.videolive2.R;
+
+
+public class VoiceReady extends AppCompatActivity {
+    private Button begin;
+    private EditText url;
+    private EditText port;
+    private EditText publishbitrate_vc;
+    private EditText multiple;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_voice_send_ready);
+
+        url = findViewById(R.id.url);
+        port = findViewById(R.id.port);
+        begin = findViewById(R.id.begin);
+        multiple = findViewById(R.id.multiple);
+        publishbitrate_vc = findViewById(R.id.publishbitrate_vc);
+
+        begin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                start();
+            }
+        });
+    }
+
+    private void start() {
+        Intent intent = new Intent(this, Voice.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url.getText().toString());
+        bundle.putInt("port", Integer.parseInt(port.getText().toString()));
+        bundle.putInt("multiple", Integer.parseInt(multiple.getText().toString()));
+        bundle.putInt("publishbitrate_vc", Integer.parseInt(publishbitrate_vc.getText().toString()) * 1024);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+}

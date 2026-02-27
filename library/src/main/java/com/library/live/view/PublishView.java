@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.widget.RelativeLayout;
+
+import androidx.core.content.ContextCompat;
 
 import com.library.R;
 
@@ -24,7 +24,7 @@ public class PublishView extends RelativeLayout {
     private Handler handler;
     private WeightRunnable weightRunnable;
 
-    public PublishView(Context context, @Nullable AttributeSet attrs) {
+    public PublishView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
