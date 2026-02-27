@@ -30,11 +30,9 @@
         </activity>
         <activity
             android:name=".video.Send"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:hardwareAccelerated="true" />
         <activity
-            android:name=".video.Recive"
-            android:screenOrientation="portrait" />
+            android:name=".video.Recive"/>
         <activity android:name=".video.SendReady" />
         <activity android:name=".video.ReciveReady" />
         <activity android:name=".voice.VoiceReady" />

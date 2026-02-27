@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="480"
+                android:text="1280"
                 android:textSize="15dp" />
 
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="320"
+                android:text="800"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="480"
+                android:text="1280"
                 android:textSize="15dp" />
 
             <TextView
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="320"
+                android:text="800"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="600"
+                android:text="500"
                 android:textSize="15dp" />
 
             <TextView
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="600"
+                android:text="500"
                 android:textSize="15dp" />
 
             <TextView
@@ -288,7 +288,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:checked="true"
                 android:text="前置" />
 
             <RadioButton
@@ -296,6 +295,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="后置" />
         </RadioGroup>
 

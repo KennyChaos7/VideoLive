@@ -88,17 +88,16 @@ public class VDDecoder implements SurfaceHolder.Callback, VideoInformationInterf
             isSurfaceCreated = false;
             if (mediaFormat == null) {
                 //分辨率等信息由sps提供，这里可以随便设置
-//                mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, holder.getSurfaceFrame().width(), holder.getSurfaceFrame().height());
-                mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, 480, 320);
+                mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, 1280, 800);
             }
-            if (MIME_TYPE.equals(H264)) {
-                mediaFormat.setByteBuffer("csd-0", getH264SPS());
-                mediaFormat.setByteBuffer("csd-1", getH264PPS());
+//            if (MIME_TYPE.equals(H264)) {
+//                mediaFormat.setByteBuffer("csd-0", getH264SPS());
+//                mediaFormat.setByteBuffer("csd-1", getH264PPS());
+//            } else if (MIME_TYPE.equals(H265)) {
+//                mediaFormat.setByteBuffer("csd-0", getH265information());
+//            }
+            mLog.log("format", MIME_TYPE.equals(H264) + " - " + MIME_TYPE.equals(H265));
 
-            } else if (MIME_TYPE.equals(H265)) {
-                mediaFormat.setByteBuffer("csd-0", getH265information());
-            }
-            Log.i("format", " " + mediaFormat);
             mCodec.configure(mediaFormat, holder.getSurface(), null, 0);
             mCodec.start();
             isMediaCodecInit = true;
