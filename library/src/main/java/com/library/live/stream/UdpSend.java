@@ -35,7 +35,9 @@ public class UdpSend {
     private int voiceNum = 0;
     private int videoNum = 0;
     private final int sendUdplength = 480;//视频包长度固定480
-    private ByteBuffer buffvideo = ByteBuffer.allocate(548);
+    private ByteBuffer buffvideo = ByteBuffer.allocate(sendUdplength + 68); // 548
+//    private final int sendUdplength = 1024;//视频包长度固定480
+//    private ByteBuffer buffvideo = ByteBuffer.allocate(sendUdplength + 68); // 548
     private ByteBuffer buffvoice = ByteBuffer.allocate(1024);
     private boolean ismysocket = false;//用于判断是否需要销毁socket
     private int voiceSendNum = 0;//控制语音包合并发送，5个包发送一次
@@ -99,7 +101,7 @@ public class UdpSend {
 
     public void addVoice(byte[] voice) {
         if (PUBLISH_STATUS == PUBLISH_STATUS_START) {
-            writeVoice(voice);
+//            writeVoice(voice);
         }
     }
 
